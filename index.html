@@ -234,6 +234,7 @@
     </div>
     <div class="head-actions">
       <button class="icon-btn" id="btnSettings" aria-label="Einstellungen">⚙︎<span class="hide-s"> Verwalten</span></button>
+      <button class="icon-btn" id="btnSaveHeader">💾 Speichern</button>
       <button class="icon-btn primary" id="btnPrint">🖨 Drucken</button>
     </div>
   </div>
@@ -725,7 +726,13 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
         {id:uid(),name:"Francie",color:"#4E8AC9"},
         {id:uid(),name:"Susi",color:"#8AA349"},
         {id:uid(),name:"Sibylle",color:"#B08B3E"},
-        {id:uid(),name:"Leo",color:"#5FA98F"}
+        {id:uid(),name:"Leo",color:"#5FA98F"},
+        {id:uid(),name:"Professor",color:"#5B6B79"},
+        {id:uid(),name:"Meryem",color:"#3DBFA0"},
+        {id:uid(),name:"Sina",color:"#9AA7B2"},
+        {id:uid(),name:"Moni",color:"#A05BA8"},
+        {id:uid(),name:"Miri",color:"#D6647A"},
+        {id:uid(),name:"Caro",color:"#6C63FF"}
       ],
       weeks:{} // weekKey -> { "dayIdx|half|roomName": [entry,...] }
     };
@@ -1040,15 +1047,17 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
   });
 
   // ---------- Export / Import ----------
-  $("#btnExport").addEventListener("click", ()=>{
+  function exportData(){
     const blob = new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "zimmerplan-"+weekKey(currentMonday)+"-export.json";
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-    toast("Export erstellt – Datei wurde heruntergeladen.");
-  });
+    toast("Gespeichert – Datei wurde heruntergeladen.");
+  }
+  $("#btnExport").addEventListener("click", exportData);
+  $("#btnSaveHeader").addEventListener("click", exportData);
   $("#btnImport").addEventListener("click", ()=>$("#importFile").click());
   $("#importFile").addEventListener("change", e=>{
     const f = e.target.files[0]; if(!f) return;
